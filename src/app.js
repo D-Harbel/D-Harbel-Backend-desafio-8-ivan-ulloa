@@ -53,6 +53,7 @@ app.use((req, res, next) => {
     req.io = io;
     next();
 });
+app.use(errorHandler)
 
 app.get('/', (req, res) => {
     const isAuthenticated = req.session.usuario;
@@ -83,6 +84,7 @@ app.use('/api/clientes', ClientRouter(io))
 app.use('/api/products', ProductRouter(io));
 app.use('/api/carts', CartRouter(io));
 app.use('/chat', ChatRouter(io, MessageDao));
+
 
 app.get('/views/carts/:cid', async (req, res) => {
     const cid = req.params.cid;
@@ -143,7 +145,6 @@ app.get('/purchase', async (req, res) => {
     }
 });
 
-app.use(errorHandler)
 
 io.on('connection', async (socket) => {
     console.log('Cliente conectado');
@@ -170,6 +171,7 @@ io.on('connection', async (socket) => {
 server.listen(port, () => {
     console.log(`Servidor en linea, puerto ${port}`);
 });
+
 
 try {
     mongoose.connect(config.mongoURI, { dbName: "ecommerce" });

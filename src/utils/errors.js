@@ -1,16 +1,37 @@
 const os = require('os');
 
-const errorArgumentos = ({ title, ...otros }) => {
+class ErrorCodes {
+    static Campo_Vacio = {
+        name: 'Campo vacio',
+    };
 
-    return `
-Error en argumentos:
-Argumentos obligatorios:
-    - title: esperado tipo string, recibido ${title}   
-Argumentos opcionales:
-    - ${JSON.stringify(otros)}
+    static Numeros = {
+        name: 'Caracteres incorrectos',
+    };
 
-Fecha: ${new Date().toUTCString()}
-`
+    static title = {
+        message: 'El campo de title no puede quedar vacio',
+    };
+
+    static description = {
+        message: 'El campo de description no puede quedar vacio',
+    };
+
+    static code = {
+        message: 'El campo de code no puede quedar vacio',
+    };
+
+    static category = {
+        message: 'El campo de category no puede quedar vacio',
+    };
+
+    static price = {
+        message: 'Solo se permiten números positivos en el campo price',
+    };
+
+    static stock = {
+        message: 'Solo se permiten números positivos en el campo stock',
+    };
 }
 
-module.exports = { errorArgumentos };
+module.exports = { ErrorCodes }
