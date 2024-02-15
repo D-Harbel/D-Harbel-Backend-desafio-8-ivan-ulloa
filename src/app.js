@@ -21,6 +21,7 @@ const initPassportGithub = require('./config/passport/config.passportGithub')
 const inicializarPassport = require('./config/passport/config.passportLocal')
 const config = require('./config/config');
 const generateMockProducts = require('./mocks/product.mocks');
+const { errorHandler } = require('./middleware/errorHandler')
 
 const app = express();
 const server = http.createServer(app);
@@ -141,6 +142,8 @@ app.get('/purchase', async (req, res) => {
         res.status(500).send('Error interno del servidor');
     }
 });
+
+app.use(errorHandler)
 
 io.on('connection', async (socket) => {
     console.log('Cliente conectado');

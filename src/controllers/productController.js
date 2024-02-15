@@ -1,5 +1,8 @@
 const ProductService = require('../repository/product.service');
 const { Product } = require('../dao/index');
+const { CustomError } = require('../utils/CustomErrors');
+const { errorArgumentos } = require('../utils/errors');
+const { STATUS_CODES, ERRORES_INTERNOS } = require('../utils/ErrorTypes');
 
 class ProductController {
     async getProducts(req, res) {
@@ -46,7 +49,7 @@ class ProductController {
         const { title, description, code, price, stock, category, thumbnails } = req.body;
 
         if (typeof title !== 'string' || title.trim() === '') {
-            return res.status(400).json({ error: 'No se permite el campo vacío en title' });
+            throw CustomError("Missing Title", "Falta completar la propiedad title", STATUS_CODES.ERROR_ARGUMENTOS, ERRORES_INTERNOS.ARGUMENTOS, errorArgumentos(req.body))
         }
 
         if (typeof description !== 'string' || description.trim() === '') {
