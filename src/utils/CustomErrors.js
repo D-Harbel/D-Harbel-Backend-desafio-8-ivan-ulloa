@@ -1,13 +1,11 @@
-class CustomError{
-    static CustomError(title, mensaje, statusCode, codigoInterno, descripcion=""){
-        let error=new Error(mensaje)
-        error.title=title
-        error.codigo=statusCode
-        error.codigoInterno=codigoInterno
-        error.descripcion=descripcion
-
-        return error
-        
+class CustomError {
+    constructor(nombre, mensaje, statusCode, codigoInterno, descripcion = "") {
+        this.name = nombre;
+        this.message = mensaje;
+        this.codigo = statusCode;
+        this.codigoInterno = codigoInterno;
+        this.descripcion = descripcion;
     }
 }
-module.exports = CustomError;
+
+module.exports = { CustomError };

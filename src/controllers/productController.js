@@ -47,37 +47,37 @@ class ProductController {
 
     async addProduct(req, res) {
         const { title, description, code, price, stock, category, thumbnails } = req.body;
-
-        if (typeof title !== 'string' || title.trim() === '') {
-            throw CustomError("Missing Title", "Falta completar la propiedad title", STATUS_CODES.ERROR_ARGUMENTOS, ERRORES_INTERNOS.ARGUMENTOS, errorArgumentos(req.body))
-        }
-
-        if (typeof description !== 'string' || description.trim() === '') {
-            return res.status(400).json({ error: 'No se permite el campo vacío en description' });
-        }
-
-        if (typeof code !== 'string' || code.trim() === '') {
-            return res.status(400).json({ error: 'No se permite el campo vacío en code' });
-        }
-
-        if (typeof price !== 'number' || isNaN(price) || price <= 0) {
-            return res.status(400).json({ error: 'Solo se permiten números positivos en price' });
-        }
-
-        if (typeof stock !== 'number' || isNaN(stock) || stock < 0) {
-            return res.status(400).json({ error: 'Solo se permiten números positivos en stock' });
-        }
-
-        if (typeof category !== 'string' || category.trim() === '') {
-            return res.status(400).json({ error: 'No se permite el campo vacío en category' });
-        }
-
+    
         try {
+            if (typeof title !== 'string' || title.trim() === '') {
+                throw new CustomError("Falta completar el campo title", STATUS_CODES.ERROR_ARGUMENTOS, ERRORES_INTERNOS.ARGUMENTOS, errorArgumentos(req.body))
+            }
+    
+            if (typeof description !== 'string' || description.trim() === '') {
+                return res.status(400).json({ error: 'No se permite el campo vacío en description' });
+            }
+    
+            if (typeof code !== 'string' || code.trim() === '') {
+                return res.status(400).json({ error: 'No se permite el campo vacío en code' });
+            }
+    
+            if (typeof price !== 'number' || isNaN(price) || price <= 0) {
+                return res.status(400).json({ error: 'Solo se permiten números positivos en price' });
+            }
+    
+            if (typeof stock !== 'number' || isNaN(stock) || stock < 0) {
+                return res.status(400).json({ error: 'Solo se permiten números positivos en stock' });
+            }
+    
+            if (typeof category !== 'string' || category.trim() === '') {
+                return res.status(400).json({ error: 'No se permite el campo vacío en category' });
+            }
+    
             await ProductService.addProduct(title, description, code, price, true, stock, category, thumbnails);
-
+    
             const products = await ProductService.getProducts();
             req.io.emit('updateProducts', products);
-
+    
             res.status(201).json({ message: 'Producto agregado exitosamente' });
         } catch (error) {
             console.error('Error al agregar un producto:', error);
